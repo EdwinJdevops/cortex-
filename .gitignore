@@ -1,0 +1,11 @@
+.env
+.env.local
+*.o
+dist/
+build/
+coverage/
+.DS_Store
+NTUSER.*
+*.dat
+.vscode/
+.idea/
