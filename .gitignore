@@ -9,3 +9,4 @@ NTUSER.*
 *.dat
 .vscode/
 .idea/
+.env.local
