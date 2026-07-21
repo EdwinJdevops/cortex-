@@ -10,3 +10,4 @@ NTUSER.*
 .vscode/
 .idea/
 .env.local
+cortex
