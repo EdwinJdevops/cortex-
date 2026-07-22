@@ -1,0 +1,23 @@
+[
+  {
+    "resource_type": "Pod",
+    "resource_id": "default/nginx-x7f2k",
+    "policy_name": "privileged_container",
+    "severity": "CRITICAL",
+    "description": "container 'nginx' runs with securityContext.privileged=true"
+  },
+  {
+    "resource_type": "Pod",
+    "resource_id": "default/api-2k9m1",
+    "policy_name": "missing_resource_limits",
+    "severity": "MEDIUM",
+    "description": "container 'api' has no CPU/memory limits set"
+  },
+  {
+    "resource_type": "Secret",
+    "resource_id": "default/db-credentials",
+    "policy_name": "exposed_secret",
+    "severity": "CRITICAL",
+    "description": "secret value found in ConfigMap 'app-config' key 'DB_PASSWORD'"
+  }
+]
