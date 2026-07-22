@@ -19,8 +19,9 @@ Cortex inverts that. **Known violation patterns are resolved by a deterministic 
 
 ```
                     ┌──────────────┐
-   K8s cluster ───► │   Scanner    │  subprocess exec, <100ms
-                    │ (Warden CLI) │  no LLM call in the hot path
+   K8s cluster ───► │   Scanner    │  kubectl get policyreports
+                    │ (PolicyReport│  the wgpolicyk8s.io CRD standard
+                    │     CRDs)    │  no LLM call in the hot path
                     └──────┬───────┘
                            │ violations[]
                     ┌──────▼───────┐
@@ -59,6 +60,24 @@ Cortex inverts that. **Known violation patterns are resolved by a deterministic 
 
 ## Quick start
 
+### Try it now — no cluster required
+```bash
+go build -o cortex ./cmd/cortex
+./cortex --fixture examples/sample_scan.json --dry-run=true
+cat cortex-audit.jsonl
+```
+This exercises the full pipeline — load, reason, CIS-mapped decision, audit
+trail — with zero external dependencies. `QWEN_API_KEY` is not required
+for this path since all three fixture violations match known deterministic
+patterns.
+
+### Against a live cluster
+Cortex reads `PolicyReport` CRDs (the `wgpolicyk8s.io` standard) directly
+via `kubectl` — it does not depend on Warden's CLI, which has no on-demand
+scan command (Warden itself is a continuous in-cluster poller that watches
+these same PolicyReport objects). Requires `kubectl` configured against
+your cluster and a policy engine that writes PolicyReports (e.g. Kyverno,
+Kubescape) already running.
 ```bash
 go build -o cortex ./cmd/cortex
 export QWEN_API_KEY=your_key
